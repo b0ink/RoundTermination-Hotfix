@@ -1,7 +1,6 @@
 #include <sourcemod>
 #include <sdkhooks>
 #include <sdktools>
-#include <gadmin>
 #include <cstrike>
 
 #pragma newdecls required
@@ -61,4 +60,11 @@ public Action Event_RoundStart(Handle event, const char[] name, bool dontBroadca
 	SetTeamScore(CS_TEAM_CT, CT_WINS);
 	SetTeamScore(CS_TEAM_T, T_WINS);
 	ServerCommand("mp_ignore_round_win_conditions 1");
+}
+
+stock bool IsValidClient(int client, bool nobots = true){
+    if (client <= 0 || client > MaxClients || !IsClientConnected(client) || (nobots && IsFakeClient(client))) {
+        return false;
+    }
+    return IsClientInGame(client);
 }
